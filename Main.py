@@ -44,8 +44,22 @@ import time
 import re
 import requests
 import importlib.util
+from pynput import keyboard
 
 current_dir = os.getcwd()
+
+def OnShortcutPressed():
+    """Triggered by global keyboard shortcut."""
+    print("\nShortcut detected! Activating ELENOR OMNI...")
+    # Use a thread to avoid blocking the listener
+    threading.Thread(target=MainExecution).start()
+
+def StartShortcutListener():
+    """Starts a global shortcut listener in the background."""
+    with keyboard.GlobalHotKeys({
+        '<cmd>+<shift>+e': OnShortcutPressed
+    }) as h:
+        h.join()
 
 # Plugin Marketplace Loader
 def LoadPlugins():
@@ -430,6 +444,9 @@ def FirstThread():
             time.sleep(1.0)
 
 def SecondThread():
+    # Start the global shortcut listener in a background thread
+    threading.Thread(target=StartShortcutListener, daemon=True).start()
+    
     GraphicalUserInterface(on_start=InitialExecution)
 
 if __name__ == "__main__":

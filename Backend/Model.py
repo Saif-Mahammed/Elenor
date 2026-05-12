@@ -86,23 +86,15 @@ ChatHistory = [
 def FirstLayerDMM(prompt: str = "test"):
     messages.append({"role": "user", "content": f"{prompt}"})
 
-    # Stream chat from Cohere API with the given model and parameters
-    stream = co.chat_stream(
-        model='command-r-08-2024',
+    # Use a faster model and direct response (no stream) for 'dangerous efficiency'
+    response = co.chat(
+        model='command-r-plus', # 'plus' is often smarter but we can use 'command-r' for raw speed
         message=prompt,
-        temperature=0.7,
+        temperature=0.1, # Low temperature for precision
         chat_history=ChatHistory,
-        prompt_truncation='OFF',
-        connectors=[],
+        prompt_truncation='AUTO',
         preamble=preamble
-    )
-
-    response = ""
-
-    # Collecting response from stream
-    for event in stream:
-        if event.event_type == "text-generation":
-            response += event.text
+    ).text
 
     response = response.replace("\n", "")
     response = response.split(" , ")
