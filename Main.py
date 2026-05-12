@@ -31,11 +31,9 @@ from Frontend.GUI import (
 from Backend.Model import FirstLayerDMM
 from Backend.RealtimeSearchEngine import RealtimeSearchEngine
 from Backend.Automation import Automation
-from Backend.SpeechToText import SpeechRecognition
 from Backend.Chatbot import ChatBot
 from Backend.TextToSpeech import TextToSpeech
 from Backend.EmailIntegration import EmailClient
-from Backend.Vision import CaptureScreen, CaptureCamera, AnalyzeImage
 from dotenv import dotenv_values
 from asyncio import run
 import subprocess
@@ -45,7 +43,16 @@ import time
 import re
 import requests
 import importlib.util
-from pynput import keyboard
+
+def LazyLoadVision():
+    """Lazily load Vision to avoid symbol conflicts with Audio libraries."""
+    from Backend.Vision import CaptureScreen, CaptureCamera, AnalyzeImage
+    return CaptureScreen, CaptureCamera, AnalyzeImage
+
+def LazyLoadSpeech():
+    """Lazily load Speech Recognition to avoid library conflicts."""
+    from Backend.SpeechToText import SpeechRecognition
+    return SpeechRecognition
 
 current_dir = os.getcwd()
 
@@ -216,6 +223,10 @@ def MainExecution():
     EmailExecution = False
     PluginExecution = False
 
+    # Lazy loading
+    CaptureScreen, CaptureCamera, AnalyzeImage = LazyLoadVision()
+    SpeechRecognition = LazyLoadSpeech()
+
     SetAssistantStatus("Listening ...")
     Query = SpeechRecognition()
     print(f"\nReceived Query: {Query}")
@@ -250,6 +261,7 @@ def MainExecution():
     )
 
     # Handle vision tasks
+    CaptureScreen, CaptureCamera, AnalyzeImage = LazyLoadVision()
     for queries in Decision:
         if queries == "analyze screen":
             SetAssistantStatus("Seeing Screen...")
@@ -426,6 +438,7 @@ def FirstThread():
                 if not any(state in AIStatus for state in processing_states):
                     # Passive listening for Wake Word
                     SetAssistantStatus("Waiting...")
+                    SpeechRecognition = LazyLoadSpeech()
                     Query = SpeechRecognition()
                     
                     if Assistantname.lower() in Query.lower():
