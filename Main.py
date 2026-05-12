@@ -44,17 +44,7 @@ import re
 import requests
 import importlib.util
 
-def LazyLoadVision():
-    """Lazily load Vision to avoid symbol conflicts with Audio libraries."""
-    from Backend.Vision import CaptureScreen, CaptureCamera, AnalyzeImage
-    return CaptureScreen, CaptureCamera, AnalyzeImage
-
-def LazyLoadSpeech():
-    """Lazily load Speech Recognition to avoid library conflicts."""
-    from Backend.SpeechToText import SpeechRecognition
-    return SpeechRecognition
-
-current_dir = os.getcwd()
+# Plugin Marketplace Loader
 
 def OnShortcutPressed():
     """Triggered by global keyboard shortcut."""
@@ -231,11 +221,8 @@ def MainExecution():
     EmailExecution = False
     PluginExecution = False
 
-    # Lazy loading
-    CaptureScreen, CaptureCamera, AnalyzeImage = LazyLoadVision()
-    SpeechRecognition = LazyLoadSpeech()
-
     SetAssistantStatus("Listening ...")
+    from Backend.SpeechToText import SpeechRecognition
     Query = SpeechRecognition()
     print(f"\nReceived Query: {Query}")
     ShowTextToScreen(f"{Username} : {Query}")
@@ -269,7 +256,7 @@ def MainExecution():
     )
 
     # Handle vision tasks
-    CaptureScreen, CaptureCamera, AnalyzeImage = LazyLoadVision()
+    from Backend.Vision import CaptureScreen, CaptureCamera, AnalyzeImage
     for queries in Decision:
         if queries == "analyze screen":
             SetAssistantStatus("Seeing Screen...")
@@ -446,7 +433,7 @@ def FirstThread():
                 if not any(state in AIStatus for state in processing_states):
                     # Passive listening for Wake Word
                     SetAssistantStatus("Waiting...")
-                    SpeechRecognition = LazyLoadSpeech()
+                    from Backend.SpeechToText import SpeechRecognition
                     Query = SpeechRecognition()
                     
                     if Assistantname.lower() in Query.lower():
