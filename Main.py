@@ -18,7 +18,9 @@ except ImportError:
     pass
 
 from pynput import keyboard
-# ... rest of code
+
+from Frontend.GUI import (
+    GraphicalUserInterface,
     SetAssistantStatus,
     ShowTextToScreen,
     get_temp_path,
