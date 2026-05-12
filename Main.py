@@ -64,10 +64,18 @@ def OnShortcutPressed():
 
 def StartShortcutListener():
     """Starts a global shortcut listener in the background."""
-    with keyboard.GlobalHotKeys({
-        '<cmd>+<shift>+e': OnShortcutPressed
-    }) as h:
-        h.join()
+    try:
+        def on_activate():
+            print("\nShortcut detected! Activating ELENOR OMNI...")
+            # Use a thread to avoid blocking the listener
+            threading.Thread(target=MainExecution).start()
+            
+        with keyboard.GlobalHotKeys({
+            '<cmd>+<shift>+e': on_activate
+        }) as h:
+            h.join()
+    except Exception as e:
+        print(f"Error in shortcut listener: {e}")
 
 # Plugin Marketplace Loader
 def LoadPlugins():
