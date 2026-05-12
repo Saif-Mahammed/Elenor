@@ -1,8 +1,8 @@
-import pygame
+import os
 import random
 import asyncio
 import edge_tts
-import os
+from playsound import playsound
 from dotenv import dotenv_values
 
 # Get the current directory (where the script is located)
@@ -47,33 +47,15 @@ def TTS(Text, func=lambda r=None: True):
         # Generate audio file
         asyncio.run(TextToAudioFile(Text))
         
-        # Initialize pygame mixer if not already initialized
-        if not pygame.mixer.get_init():
-            pygame.mixer.init(frequency=44100)
-        
         # Load and play audio
         file_path = os.path.join(current_dir, "Data", "speech.mp3")
-        pygame.mixer_music.load(file_path)
-        pygame.mixer_music.play()
-
-        # Wait for playback to complete
-        while pygame.mixer.music.get_busy():
-            if func() == False:
-                break
-            pygame.time.Clock().tick(10)
+        playsound(file_path)
 
         return True
 
     except Exception as e:
         print(f"Error in TTS: {e}")
         return False
-
-    finally:
-        try:
-            func(False)
-            pygame.mixer_music.stop()
-        except Exception as e:
-            print(f"Error in cleanup: {e}")
 
 def TextToSpeech(Text, func=lambda r=None: True):
     if not Text or not isinstance(Text, str):

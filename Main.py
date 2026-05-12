@@ -1,6 +1,4 @@
 import os
-# Suppress pygame support prompt and other potential duplicate library warnings on macOS
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 # Force objc to disable fork safety checks, which often causes these crashes on macOS
 os.environ['OBJC_DISABLE_INITIALIZE_FORK_SAFETY'] = 'YES'
 
