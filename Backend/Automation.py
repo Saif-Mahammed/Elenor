@@ -13,9 +13,44 @@ from urllib.parse import urlparse
 import shutil
 import re
 import webbrowser
+from Backend.Vision import CaptureScreen, AnalyzeImage
 
 env_vars = dotenv_values(".env")
 GroqAPIKey = env_vars.get("GroqAPIKey")
+
+def AnalyzeScreen(query="What is on my screen?"):
+    """Captures the screen and uses AI to describe it."""
+    try:
+        image_path = CaptureScreen()
+        if image_path:
+            description = AnalyzeImage(image_path, query)
+            return f"On-screen Analysis: {description}"
+        return "Failed to capture screen."
+    except Exception as e:
+        return f"Error analyzing screen: {e}"
+
+def AnalyzeFile(file_path):
+    """Reads a local file for deep analysis and discussion."""
+    try:
+        # If relative path, try to find it in the current directory or workspace
+        if not os.path.isabs(file_path):
+            potential_paths = [
+                os.path.join(os.getcwd(), file_path),
+                os.path.join(os.getcwd(), "Data", file_path),
+                os.path.join(os.path.dirname(os.getcwd()), file_path)
+            ]
+            for p in potential_paths:
+                if os.path.exists(p):
+                    file_path = p
+                    break
+        
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            return f"### File Content: {os.path.basename(file_path)} ###\n{content}\n\nI have read the file. What would you like to know about it?"
+        return f"File not found: {file_path}"
+    except Exception as e:
+        return f"Error reading file: {e}"
 
 classes = ["zCubwf", "hgKElc", "L1tM0c YYrZ6", "z20LcW", "gsrt vk_bk FzvWSb WprNhf", "pclqee", "tw-Data-text tw-text-small tw-ta",
            "IZ6rdc", "OSr6df L1tM0c", "YYrZ6", "webanswers-webanswers_table__webanswers-table", "dDoNo ikb4Bb gsrt", "sXLaOe",
@@ -339,6 +374,14 @@ async def TranslateAndExecute(commands: list[str]):
 
         elif command.startswith("play "):
             fun = asyncio.to_thread(playYoutube, command.removeprefix("play "))
+            funcs.append(fun)
+
+        elif command.startswith("analyze screen"):
+            fun = asyncio.to_thread(AnalyzeScreen)
+            funcs.append(fun)
+
+        elif command.startswith("analyze file "):
+            fun = asyncio.to_thread(AnalyzeFile, command.removeprefix("analyze file "))
             funcs.append(fun)
 
         elif command.startswith("content "):

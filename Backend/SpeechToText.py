@@ -10,6 +10,11 @@ import torch
 env_vars = dotenv_values(".env")
 InputLanguage = env_vars.get("InputLanguage", "en")
 
+# Whisper expects ISO 639-1 language codes (2 letters). 
+# If 'en-US' is provided, we use 'en'.
+if len(InputLanguage) > 2:
+    InputLanguage = InputLanguage[:2]
+
 # Initialize Whisper Model
 # 'base' is a good balance between speed and accuracy. 
 # Use 'tiny' for maximum speed or 'small'/'medium' for better accuracy.

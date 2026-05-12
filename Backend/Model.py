@@ -14,7 +14,7 @@ funcs = [
     "exit", "general", "realtime", "open", "close", "play",
     "generate image", "system", "content", "google search",
     "youtube search", "reminder", "email check", "email send", "email summarize",
-    "analyze screen", "analyze camera", "system stats", "battery status",
+    "analyze screen", "analyze camera", "analyze file", "system stats", "battery status",
     "media play", "media pause", "media next", "media previous",
     "file manipulation", "deep web research", "plugin execute" # General plugin trigger
 ]
@@ -30,6 +30,7 @@ Your job is to categorize the user's intent into specific system functions.
 -> Respond with 'media play', 'media pause', 'media next', or 'media previous' for music/video control.
 -> Respond with 'analyze screen' for screen perception tasks.
 -> Respond with 'analyze camera' for webcam perception tasks.
+-> Respond with 'analyze file (path)' for reading and discussing local files like memory.md.
 -> Respond with 'open (app)' for launching specific applications.
 -> Respond with 'general (query)' for conversation.
 -> Respond with 'realtime (query)' for internet searches.
@@ -55,6 +56,8 @@ ChatHistory = [
     {"role": "Chatbot", "message": "media next"},
     {"role": "User", "message": "Elenor, what's on my screen?"},
     {"role": "Chatbot", "message": "analyze screen"},
+    {"role": "User", "message": "Look at my memory.md file and talk to me about it."},
+    {"role": "Chatbot", "message": "analyze file memory.md"},
     {"role": "User", "message": "create a notion page titled 'Project Phoenix'"},
     {"role": "Chatbot", "message": "plugin execute notion create page Project Phoenix"},
     {"role": "User", "message": "write file /tmp/hello.txt content Hello World"},

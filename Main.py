@@ -258,6 +258,19 @@ def MainExecution():
                 TextToSpeech(description)
             return True
 
+        elif queries.startswith("analyze file "):
+            SetAssistantStatus("Reading File...")
+            file_path = queries.replace("analyze file ", "").strip()
+            from Backend.Automation import AnalyzeFile
+            response = AnalyzeFile(file_path)
+            ShowTextToScreen(f"{Assistantname} : {response}")
+            SetAssistantStatus("Answering ...")
+            TextToSpeech("I have read the file. What would you like to know?")
+            # We don't return True yet because we want to allow further discussion 
+            # about the content in the same turn or next turn via ChatBot.
+            # But for now, let's treat it as handled.
+            return True
+
     # Handle image generation
     for queries in Decision:
         if "generate" in queries:
