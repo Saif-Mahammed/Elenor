@@ -2,7 +2,7 @@ import os
 import random
 import asyncio
 import edge_tts
-from playsound import playsound
+import subprocess
 from dotenv import dotenv_values
 
 # Get the current directory (where the script is located)
@@ -47,9 +47,9 @@ def TTS(Text, func=lambda r=None: True):
         # Generate audio file
         asyncio.run(TextToAudioFile(Text))
         
-        # Load and play audio
+        # Play audio using native macOS afplay command (no external libraries needed)
         file_path = os.path.join(current_dir, "Data", "speech.mp3")
-        playsound(file_path)
+        subprocess.run(["afplay", file_path])
 
         return True
 
