@@ -16,6 +16,7 @@ def LoadMemory():
                 "facts": [], 
                 "user_preferences": {}, 
                 "relationship": {"level": 1, "sentiment": "Neutral", "interactions": 0},
+                "mood": "Devoted",
                 "last_session": ""
             }
             with open(memory_path, "w", encoding='utf-8') as f:
@@ -23,7 +24,16 @@ def LoadMemory():
             return default_mem
     except Exception as e:
         print(f"Error loading memory: {e}")
-        return {"facts": [], "user_preferences": {}, "relationship": {"level": 1}, "last_session": ""}
+        return {"facts": [], "user_preferences": {}, "relationship": {"level": 1}, "mood": "Neutral", "last_session": ""}
+
+def SetMood(mood):
+    memory = LoadMemory()
+    memory["mood"] = mood
+    SaveMemory(memory)
+
+def GetMood():
+    memory = LoadMemory()
+    return memory.get("mood", "Devoted")
 
 def IncrementRelationship():
     memory = LoadMemory()
@@ -67,9 +77,11 @@ def GetMemoryContext():
     
     # Add relationship context
     rel = memory.get("relationship", {"level": 1, "interactions": 0})
-    context += f"\n### Assistant Relationship ###\n"
+    mood = memory.get("mood", "Devoted")
+    context += f"\n### Assistant State ###\n"
+    context += f"- Current Mood: {mood}\n"
     context += f"- Current Bond Level: {rel['level']}\n"
     context += f"- Total Meaningful Interactions: {rel['interactions']}\n"
-    context += "The user's trust in you grows with each interaction. Use this to be more warm and personal."
+    context += f"You are currently in a '{mood}' state towards the user. Let this intensity reflect in your responses."
     
     return context

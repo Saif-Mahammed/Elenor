@@ -389,7 +389,7 @@ class CustomTopBar(QWidget):
                 border: none;
             }
         """)
-        close_btn.clicked.connect(self.parent().parent().close)
+        close_btn.clicked.connect(self.window().close)
         
         layout.addWidget(logo)
         layout.addStretch()
