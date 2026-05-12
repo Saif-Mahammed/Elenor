@@ -1,0 +1,187 @@
+/* styles.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap');
+
+body {
+    font-family: 'Space Grotesk', sans-serif;
+    background-color: #050505; /* Deep dark background */
+    color: #F0F0F0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    line-height: 1.6;
+}
+
+.background-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(circle, #007AFF 0%, transparent 70%); /* Blue glow */
+    opacity: 0.15;
+    filter: blur(120px);
+    animation: glow-animation 20s infinite alternate cubic-bezier(0.4, 0, 0.6, 1);
+    z-index: 0;
+}
+
+@keyframes glow-animation {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+    50% { transform: translate(-48%, -52%) scale(1.05); opacity: 0.18; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.15; }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    margin: 20px;
+    padding: 50px;
+    background-color: rgba(10, 10, 11, 0.85); /* Slightly transparent dark background */
+    border-radius: 20px;
+    backdrop-filter: blur(15px); /* Glassmorphism effect */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 12px 48px 0 rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+.container:hover {
+    box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 122, 255, 0.3);
+}
+
+h1 {
+    font-size: 5em;
+    margin-bottom: 0.2em;
+    letter-spacing: 8px;
+    font-weight: 700;
+    background: linear-gradient(45deg, #007AFF, #00BFFF); /* Blue gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(0, 122, 255, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+h1:hover {
+    letter-spacing: 10px;
+    text-shadow: 0 0 15px rgba(0, 122, 255, 0.7);
+}
+
+h2 {
+    font-size: 2em;
+    color: #B0B0B0;
+    margin-top: 0;
+    margin-bottom: 2.5em;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 2em;
+    color: #D0D0D0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 4em;
+    margin-bottom: 4em;
+}
+
+.feature-card {
+    background-color: rgba(26, 26, 29, 0.7); /* Darker transparent card */
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 122, 255, 0.3);
+    background-color: rgba(30, 30, 35, 0.85);
+}
+
+.feature-card h3 {
+    color: #00BFFF; /* Lighter blue for emphasis */
+    font-size: 1.5em;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.feature-card p {
+    font-size: 1em;
+    color: #C0C0C0;
+    line-height: 1.7;
+    margin-bottom: 0;
+}
+
+.cta-button {
+    display: inline-block;
+    background: linear-gradient(45deg, #007AFF, #00BFFF);
+    color: white;
+    padding: 18px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.3em;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-top: 3em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 122, 255, 0.3);
+}
+
+.cta-button:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 122, 255, 0.5);
+    background: linear-gradient(45deg, #00BFFF, #007AFF);
+}
+
+.footer {
+    margin-top: 5em;
+    font-size: 0.85em;
+    color: #666;
+    letter-spacing: 0.5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 3em;
+        letter-spacing: 4px;
+    }
+    h2 {
+        font-size: 1.5em;
+        letter-spacing: 1px;
+    }
+    .container {
+        padding: 30px;
+    }
+    .features {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .cta-button {
+        font-size: 1.1em;
+        padding: 15px 30px;
+    }
+}
+
