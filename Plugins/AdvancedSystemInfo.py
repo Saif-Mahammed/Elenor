@@ -8,16 +8,11 @@ def can_handle(command):
 def execute(command):
     try:
         if "detailed system info" in command.lower():
-            info = f"OS: {platform.system()} {platform.release()} ({platform.version()})
-"
-            info += f"Architecture: {platform.machine()}
-"
-            info += f"Processor: {platform.processor()}
-"
-            info += f"CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical
-"
-            info += f"Total RAM: {round(psutil.virtual_memory().total / (1024**3), 2)} GB
-"
+            info = f"OS: {platform.system()} {platform.release()} ({platform.version()})\n"
+            info += f"Architecture: {platform.machine()}\n"
+            info += f"Processor: {platform.processor()}\n"
+            info += f"CPU Cores: {psutil.cpu_count(logical=False)} physical, {psutil.cpu_count(logical=True)} logical\n"
+            info += f"Total RAM: {round(psutil.virtual_memory().total / (1024**3), 2)} GB\n"
             return info
         elif "cpu temperature" in command.lower():
             if hasattr(psutil, "sensors_temperatures"):

@@ -1,6 +1,10 @@
 import os
 import sys
 
+# Suppress pygame support prompt and other potential duplicate library warnings on macOS
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
+os.environ['OBJC_DISABLE_INITIALIZE_FORK_SAFETY'] = 'YES'
+
 # Set QT_PLUGIN_PATH to PyQt6's plugins directory to avoid conflicts with system/Anaconda Qt5 plugins
 # This must be done before any PyQt6 imports
 try:

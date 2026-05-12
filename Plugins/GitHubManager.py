@@ -22,11 +22,9 @@ def execute(command):
             repo_name = command.lower().split("list issues for")[1].strip()
             repo = g.get_user().get_repo(repo_name)
             issues = repo.get_issues(state="open")
-            response = f"Open issues for {repo_name}:
-"
+            response = f"Open issues for {repo_name}:\n"
             for issue in issues:
-                response += f"- #{issue.number}: {issue.title} (by {issue.user.login})
-"
+                response += f"- #{issue.number}: {issue.title} (by {issue.user.login})\n"
             return response
         elif "create issue in" in command.lower() and "title" in command.lower():
             parts = command.lower().split("create issue in")[1].split("title")
@@ -39,11 +37,9 @@ def execute(command):
             repo_name = command.lower().split("pr status for")[1].strip()
             repo = g.get_user().get_repo(repo_name)
             pulls = repo.get_pulls(state="open")
-            response = f"Open Pull Requests for {repo_name}:
-"
+            response = f"Open Pull Requests for {repo_name}:\n"
             for pull in pulls:
-                response += f"- #{pull.number}: {pull.title} (by {pull.user.login}) - {pull.html_url}
-"
+                response += f"- #{pull.number}: {pull.title} (by {pull.user.login}) - {pull.html_url}\n"
             return response
         else:
             return "GitHub command not understood. Try 'list issues for [repo_name]' or 'create issue in [repo_name] title [issue_title]'."

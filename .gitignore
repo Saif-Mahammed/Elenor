@@ -1,6 +1,14 @@
 .env
 .gemini
 jarvis 2.zip
-.env
-.env
 .env*
+__pycache__/
+*.py[cod]
+*$py.class
+.DS_Store
+Data/*.png
+Data/*.mp3
+Data/ChatLog.json
+Data/reminders.json
+Frontend/Files/*.data
+

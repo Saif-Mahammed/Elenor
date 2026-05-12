@@ -10,10 +10,7 @@ def execute(command):
             file_path = command.lower().split("read file")[1].strip()
             if os.path.exists(file_path):
                 with open(file_path, "r", encoding="utf-8") as f:
-                    return f"Content of {file_path}:
-```
-{f.read()}
-```"
+                    return f"Content of {file_path}:\n```\n{f.read()}\n```"
             return f"File not found: {file_path}"
         elif "write file" in command.lower():
             parts = command.lower().split("write file")[1].split("content")
@@ -37,16 +34,12 @@ def execute(command):
                                         results.append(f"{file_path}:{line_num}: {line.strip()}")
                         except Exception:
                             continue
-            return "Search results:
-" + "
-".join(results) if results else "No matching code found."
+            return "Search results:\n" + "\n".join(results) if results else "No matching code found."
         elif "list files in" in command.lower():
             dir_path = command.lower().split("list files in")[1].strip() or '.'
             if os.path.isdir(dir_path):
                 files = os.listdir(dir_path)
-                return f"Files in {dir_path}:
-" + "
-".join(files)
+                return f"Files in {dir_path}:\n" + "\n".join(files)
             return f"Directory not found: {dir_path}"
         else:
             return "Codebase command not understood. Try 'read file [path]', 'write file [path] content [text]', 'search code for [query]', or 'list files in [directory]'."

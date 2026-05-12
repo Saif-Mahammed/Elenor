@@ -47,16 +47,13 @@ def execute(command):
         if not reminders:
             return "You have no active reminders."
         
-        response = "Your reminders:
-"
+        response = "Your reminders:\n"
         for r in reminders:
             try:
                 dt = datetime.fromisoformat(r["time"])
-                response += f"- {r['message']} at {dt.strftime('%I:%M %p on %Y-%m-%d')}
-"
+                response += f"- {r['message']} at {dt.strftime('%I:%M %p on %Y-%m-%d')}\n"
             except:
-                response += f"- {r['message']} (time unknown)
-"
+                response += f"- {r['message']} (time unknown)\n"
         return response
 
     elif "clear reminders" in command.lower():

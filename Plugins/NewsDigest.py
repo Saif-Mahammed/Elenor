@@ -11,14 +11,11 @@ def execute(command):
         soup = BeautifulSoup(response.content, 'xml')
         articles = soup.find_all('item')
         
-        digest = "Here are the top headlines:
-"
+        digest = "Here are the top headlines:\n"
         for i, article in enumerate(articles[:5]): # Get top 5 headlines
             title = article.find('title').text
             link = article.find('link').text
-            digest += f"{i+1}. {title}
-" # Link: {link}
-"
+            digest += f"{i+1}. {title}\n" # Link: {link}\n"
         return digest
     except Exception as e:
         return f"Error fetching news digest: {e}"
