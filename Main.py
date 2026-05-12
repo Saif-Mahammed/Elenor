@@ -4,6 +4,9 @@ os.environ['OBJC_DISABLE_INITIALIZE_FORK_SAFETY'] = 'YES'
 
 import sys
 
+# Define current_dir immediately for use by other functions
+current_dir = os.getcwd()
+
 # Set QT_PLUGIN_PATH to PyQt6's plugins directory to avoid conflicts with system/Anaconda Qt5 plugins
 # This must be done before any PyQt6 imports
 try:
